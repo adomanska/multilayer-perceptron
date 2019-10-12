@@ -16,7 +16,7 @@ class DataReader:
     def get_columns(self, column_names = None):
         if column_names is None:
             column_names = self.data.keys()
-        return np.array([
+        return np.transpose(np.array([
             [float(x) for x in self.data[column]]
             for column in column_names
-        ])
+        ]))
