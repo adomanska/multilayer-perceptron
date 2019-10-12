@@ -1,3 +1,5 @@
+![Travis](https://travis-ci.org/adomanska/multilayer-perceptron.svg?branch=develop)
+
 # Multilayer Perceptron
 
 Implementacja sieci neuronowej Percepron Wielowarstwowy w języku Python.
@@ -38,10 +40,4 @@ $ pip freeze > requirements.txt
 6. Deaktywacja wirtualnego środowiska:
 ```
 $ deactivate
-```
-
-## Instrukcja uruchomienia
-Aby uruchomić aplikację, należy z poziomu głównego katalogu projektu wykonać polecenie:
-```
-$ ./backend/web_application.py
 ```
