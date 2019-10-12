@@ -7,7 +7,7 @@ class ReLU(ActivationFunction):
         else:
             return x
 
-    def calculateDerivative(self, x):
+    def calculate_derivative(self, x):
         if x <= 0:
             return 0
         else:

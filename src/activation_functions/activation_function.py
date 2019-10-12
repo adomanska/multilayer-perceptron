@@ -6,5 +6,5 @@ class ActivationFunction(ABC):
 		pass
 
 	@abstractmethod
-	def calculateDerivative(self, x):
+	def calculate_derivative(self, x):
 		pass

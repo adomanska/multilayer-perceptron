@@ -7,7 +7,7 @@ class LeakyReLU(ActivationFunction):
         else:
             return x
 
-    def calculateDerivative(self, x):
+    def calculate_derivative(self, x):
         if x < 0:
             return 0.01
         else:
