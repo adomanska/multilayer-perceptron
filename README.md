@@ -1,3 +1,5 @@
+![Travis](https://travis-ci.org/adomanska/multilayer-perceptron.svg?branch=develop)
+
 # Multilayer Perceptron
 
 Implementacja sieci neuronowej Percepron Wielowarstwowy w języku Python.
