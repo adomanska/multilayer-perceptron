@@ -39,9 +39,3 @@ $ pip freeze > requirements.txt
 ```
 $ deactivate
 ```
-
-## Instrukcja uruchomienia
-Aby uruchomić aplikację, należy z poziomu głównego katalogu projektu wykonać polecenie:
-```
-$ ./backend/web_application.py
-```
