@@ -9,6 +9,4 @@ class Layer:
         self.biases = biases if biases is not None else np.random.rand(neuron_count)
 
     def activate(self, input):
-        result = np.dot(input, self.weights) + self.biases
-        output = self.activation_function(result)
-        return output
+        return self.activation_function(np.dot(input, self.weights) + self.biases)
