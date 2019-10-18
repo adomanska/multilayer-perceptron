@@ -1,4 +1,4 @@
-from layer import Layer
+from neural_network.layer import Layer
 import random
 import numpy as np
 
