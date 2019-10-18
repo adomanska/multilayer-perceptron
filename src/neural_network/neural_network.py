@@ -1,5 +1,5 @@
-from neural_network.output_layer import OutputLayer
-from neural_network.hidden_layer import HiddenLayer
+from .output_layer import OutputLayer
+from .hidden_layer import HiddenLayer
 import random
 import numpy as np
 
@@ -18,6 +18,7 @@ class NeuralNetwork:
         self.add_layer(layer)
 
     def _feed_forward(self, input):
+        input = input.transpose()
         for layer in self.layers:
             input = layer.activate(input)
 
@@ -67,4 +68,5 @@ class NeuralNetwork:
     def evaluate(self, test_data):
         test_results = [(np.argmax(self._feed_forward(x)), y)
                         for (x, y) in test_data]
+        print(test_results)
         return sum(int(x == y) for (x, y) in test_results)
