@@ -1,4 +1,4 @@
-from neural_network import NeuralNetwork
+from neural_network.neural_network import NeuralNetwork
 from activation_functions.sigmoid import Sigmoid
 
 nn = NeuralNetwork()
