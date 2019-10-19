@@ -59,14 +59,15 @@ class NeuralNetwork:
         delta = None
         nabla_b = []
         nabla_w = []
-        for layer in reversed(self.layers):
-            delta, nw = layer.backward_pass(y, delta)
+        for i in range(1, len(self.layers) + 1):
+            layer = self.layers[-i]
+            delta, nw = layer.backward_pass(y, delta, self.layers[-i + 1].weights)
             nabla_b.append(delta)
             nabla_w.append(nw)
         return (nabla_b, nabla_w)
 
     def evaluate(self, test_data):
-        test_results = [(np.argmax(self._feed_forward(x)), y)
+        test_results = [(np.argmax(self._feed_forward(np.array(x))), y)
                         for (x, y) in test_data]
         print(test_results)
         return sum(int(x == y) for (x, y) in test_results)
