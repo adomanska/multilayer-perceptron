@@ -43,10 +43,10 @@ class NeuralNetwork:
 
     def _update_mini_batch(self, mini_batch, eta):
         mini_batch_size = len(mini_batch)
-        nabla_b = [np.zeros(layer.neuron_count) for layer in self.layers]
-        nabla_w = [np.zeros([layer.input_count, layer.neuron_count]) for layer in self.layers]
+        nabla_b = np.array([np.zeros(layer.neuron_count) for layer in self.layers])
+        nabla_w = np.array([np.zeros([layer.neuron_count, layer.input_count]) for layer in self.layers])
         for x, y in mini_batch:
-            delta_nabla_b, delta_nabla_w = self._backprop(x, y)
+            delta_nabla_b, delta_nabla_w = np.flip(self._backprop(x, y), 1)
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
         for layer, nb, nw in zip(self.layers, nabla_b, nabla_w):
@@ -69,5 +69,4 @@ class NeuralNetwork:
     def evaluate(self, test_data):
         test_results = [(np.argmax(self._feed_forward(np.array(x))), y)
                         for (x, y) in test_data]
-        print(test_results)
         return sum(int(x == y) for (x, y) in test_results)

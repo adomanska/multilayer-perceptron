@@ -32,6 +32,6 @@ def test_backward_pass():
 
     layer.activate(inputs)
     nabla_b, nabla_w = layer.backward_pass(None, delta, next_weights)
-    print(nabla_b)
+
     np.testing.assert_allclose(nabla_b, expected_nabla_b)
     np.testing.assert_allclose(nabla_w, expected_nabla_w)
