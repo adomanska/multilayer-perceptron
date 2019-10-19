@@ -9,12 +9,12 @@ class Layer(ABC):
         self.weights = weights if weights is not None else np.random.rand(neuron_count, input_count)
         self.biases = biases if biases is not None else np.random.rand(neuron_count)
 
-    def activate(self, input):
-        z = np.dot(self.weights, input) + self.biases
+    def activate(self, inputs):
+        z = np.dot(self.weights, inputs) + self.biases
         activation = self.activation_function.calculate(z)
         self.last_z = z
         self.last_activation = activation
-        self.last_input = input
+        self.last_input = inputs
         return activation
 
     @abstractmethod
