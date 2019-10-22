@@ -1,6 +1,6 @@
 import pytest
 import numpy as np
-from src.neural_network.neural_network import NeuralNetwork
+from src.neural_network.classification_neural_network import ClassificationNeuralNetwork
 from src.neural_network.hidden_layer import HiddenLayer
 from src.neural_network.output_layer import OutputLayer
 from src.activation_functions.activation_function import ActivationFunction
@@ -22,7 +22,7 @@ def test_feed_forward():
     expected_result = np.array([1.7, 1.7])
     hidden_layer = HiddenLayer(4, 3, SampleActivationFunc(), weights=weights, biases=biases)
     output_layer = OutputLayer(3, 2, SampleActivationFunc(), weights=np.ones((2, 3)), biases=np.zeros(2))
-    nn = NeuralNetwork()
+    nn = ClassificationNeuralNetwork()
     nn.add_layer(hidden_layer)
     nn.add_layer(output_layer)
     result = nn._feed_forward(inputs)
