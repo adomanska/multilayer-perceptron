@@ -13,7 +13,7 @@ class DataReader:
                 for header, value in zip(headers, row):
                     self.data[header].append(value)
 
-    def get_columns(self, column_names = None):
+    def get_columns(self, column_names = None, transformations = None):
         if column_names is None:
             column_names = self.data.keys()
         return np.transpose(np.array([

@@ -2,8 +2,9 @@ from .output_layer import OutputLayer
 from .hidden_layer import HiddenLayer
 import random
 import numpy as np
+from abc import ABC, abstractmethod
 
-class NeuralNetwork:
+class NeuralNetwork(ABC):
     def __init__(self):
         self.layers = []
     
@@ -18,7 +19,6 @@ class NeuralNetwork:
         self.add_layer(layer)
 
     def _feed_forward(self, input):
-        input = input.transpose()
         for layer in self.layers:
             input = layer.activate(input)
 
@@ -66,7 +66,6 @@ class NeuralNetwork:
             nabla_w.append(nw)
         return (nabla_b, nabla_w)
 
+    @abstractmethod
     def evaluate(self, test_data):
-        test_results = [(np.argmax(self._feed_forward(np.array(x))), y)
-                        for (x, y) in test_data]
-        return sum(int(x == y) for (x, y) in test_results)
+        pass
