@@ -15,8 +15,9 @@ class Visualisator:
         classification_results = classifier.classify(grid_points)
 
         # prepare points for the plot
-        grouped_classification_results = Visualisator._group_by_class_id(
-            classification_results)
+        grouped_classification_results = \
+            Visualisator._group_by_class_id(classification_results)
+        
         grouped_test_data = Visualisator._group_by_class_id(test_data)
 
         # Create the plot
@@ -29,6 +30,21 @@ class Visualisator:
             ax, grouped_classification_results, background_colors)
         Visualisator._add_subplots(ax, grouped_test_data, colors)
 
+        plt.show()
+
+    @staticmethod
+    def draw_regression_results(nn, test_data):
+        sorted_data = sorted(test_data, key=lambda x: x[0][0])
+        xs = np.array([x[0] for x, y in sorted_data])
+        ys = np.array([y[0] for x, y in sorted_data])
+
+        prediction_results = nn.predict(xs)
+
+        y_predicted = list(map(itemgetter(1), prediction_results))
+
+        plt.plot(xs, ys, c = 'red')
+        plt.plot(xs, y_predicted, c = 'blue')
+        plt.legend(['test set values', 'predicted values'])
         plt.show()
 
     @staticmethod

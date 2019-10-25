@@ -31,13 +31,6 @@ nn.create_and_add_layer(9, 1, Linear(), True)
 train_data = create_train_data(ProblemType.Regression, "./data/regression/train/data.activation.train.1000.csv", ["x"], ["y"])
 test_data = create_test_data(ProblemType.Regression, "./data/regression/test/data.activation.test.1000.csv", ["x"], ["y"])
 
-sorted_data = sorted(test_data, key=lambda x: x[0][0])
-xs = np.array([x[0] for x, y in sorted_data])
-ys = np.array([y[0] for x, y in sorted_data])
+nn.train(train_data, 10, 100, 0.006, test_data)
 
-nn.train(train_data, 10, 1000, 0.006, test_data)
-yp = [nn._feed_forward(np.array([x]))[0] for x in xs]
-
-plt.plot(xs, ys)
-plt.plot(xs, yp)
-plt.show()
+Visualisator.draw_regression_results(nn, test_data)
