@@ -9,30 +9,31 @@ from data_transformations import create_test_data, create_train_data, ProblemTyp
 import matplotlib.pyplot as plt
 
 # Classification
-print("Classification")
-nn = ClassificationNeuralNetwork()
-nn.create_and_add_layer(2, 10, Sigmoid(), False)
-nn.create_and_add_layer(10, 15, Sigmoid(), False)
-nn.create_and_add_layer(15, 2, Sigmoid(), True)
+# print("Classification")
+# nn = ClassificationNeuralNetwork()
+# nn.create_and_add_layer(2, 10, Sigmoid(), False)
+# nn.create_and_add_layer(10, 15, Sigmoid(), False)
+# nn.create_and_add_layer(15, 2, Sigmoid(), True)
 
-train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
-test_data = create_test_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
-nn.train(train_data, 10, 100, 0.5, test_data)
+# train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
+# test_data = create_test_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
+# nn.train(train_data, 10, 100, 0.5, 0, test_data)
 
 # Regression
 print("Regression")
 nn = RegressionNeuralNetwork()
 nn.create_and_add_layer(1, 9, Sigmoid(), False)
-nn.create_and_add_layer(9, 1, Linear(), True)
+nn.create_and_add_layer(9, 11, Sigmoid(), False)
+nn.create_and_add_layer(11, 1, Linear(), True)
 
-train_data = create_train_data(ProblemType.Regression, "./data/regression/train/data.activation.train.1000.csv", ["x"], ["y"])
-test_data = create_test_data(ProblemType.Regression, "./data/regression/test/data.activation.test.1000.csv", ["x"], ["y"])
+train_data = create_train_data(ProblemType.Regression, "./data/regression/train/data.cube.train.1000.csv", ["x"], ["y"])
+test_data = create_test_data(ProblemType.Regression, "./data/regression/test/data.cube.test.1000.csv", ["x"], ["y"])
 
 sorted_data = sorted(test_data, key=lambda x: x[0][0])
 xs = np.array([x[0] for x, y in sorted_data])
 ys = np.array([y[0] for x, y in sorted_data])
 
-nn.train(train_data, 10, 1000, 0.006, test_data)
+nn.train(train_data, 10, 300, 0.0015, 0.004, test_data)
 yp = [nn._feed_forward(np.array([x]))[0] for x in xs]
 
 plt.plot(xs, ys)
