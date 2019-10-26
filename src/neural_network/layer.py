@@ -7,6 +7,8 @@ class Layer(ABC):
         self.neuron_count = neuron_count
         self.activation_function = activation_function
         self.weights = weights if weights is not None else np.random.rand(neuron_count, input_count)
+        self.weight_velocities = np.zeros((neuron_count, input_count))
+        self.bias_velocities = np.zeros(neuron_count)
         self.biases = biases if biases is not None else np.random.rand(neuron_count)
         self.weights_history = [self.weights]
 
@@ -22,9 +24,11 @@ class Layer(ABC):
     def backward_pass(self, y, delta):
         pass
 
-    def update_weights_and_biases(self, nabla_w, nabla_b, eta, mini_batch_size):
-        self.weights = self.weights - (eta / mini_batch_size) * nabla_w
-        self.biases = self.biases - (eta / mini_batch_size) * nabla_b
-    
+    def update_weights_and_biases(self, nabla_w, nabla_b, eta, mini_batch_size, momentum = 0):
+        self.weight_velocities = momentum * self.weight_velocities - (eta / mini_batch_size) * nabla_w
+        self.bias_velocities = momentum * self.bias_velocities - (eta / mini_batch_size) * nabla_b
+        self.weights = self.weights + self.weight_velocities
+        self.biases = self.biases + self.bias_velocities
+
     def add_weights_to_history(self):
         self.weights_history.append(self.weights)
