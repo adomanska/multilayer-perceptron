@@ -4,6 +4,7 @@ from src.neural_network.classification_neural_network import ClassificationNeura
 from src.neural_network.hidden_layer import HiddenLayer
 from src.neural_network.output_layer import OutputLayer
 from src.activation_functions.activation_function import ActivationFunction
+from src.cost_functions.quadratic_cost import QuadraticCost
 
 class SampleActivationFunc(ActivationFunction):
     def calculate(self, x):
@@ -21,7 +22,7 @@ def test_feed_forward():
     biases = np.array([0.1, 0.1, 0.1])
     expected_result = np.array([1.7, 1.7])
     hidden_layer = HiddenLayer(4, 3, SampleActivationFunc(), weights=weights, biases=biases)
-    output_layer = OutputLayer(3, 2, SampleActivationFunc(), weights=np.ones((2, 3)), biases=np.zeros(2))
+    output_layer = OutputLayer(3, 2, SampleActivationFunc(), QuadraticCost(), weights=np.ones((2, 3)), biases=np.zeros(2))
     nn = ClassificationNeuralNetwork()
     nn.add_layer(hidden_layer)
     nn.add_layer(output_layer)
