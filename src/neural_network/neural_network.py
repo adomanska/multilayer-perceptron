@@ -40,6 +40,9 @@ class NeuralNetwork(ABC):
                 print("Epoch {0}: {1} / {2}".format(epoch, self.evaluate(test_data), n_test))
             else:
                 print("Epoch {0} complete".format(epoch))
+            for layer in self.layers:
+                layer.add_weights_to_history()
+            
 
     def _update_mini_batch(self, mini_batch, eta):
         mini_batch_size = len(mini_batch)

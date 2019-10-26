@@ -21,6 +21,7 @@ test_data = create_test_data(ProblemType.Classification, "./data/classification/
 nn.train(train_data, 10, 100, 0.5, test_data)
 
 Visualisator.draw_classifier_scatter_plot(nn, test_data)
+Visualisator.draw_weights_history(nn)
 
 # Regression
 print("Regression")
@@ -34,3 +35,5 @@ test_data = create_test_data(ProblemType.Regression, "./data/regression/test/dat
 nn.train(train_data, 10, 100, 0.006, test_data)
 
 Visualisator.draw_regression_results(nn, test_data)
+
+Visualisator.draw_weights_history(nn)

@@ -48,6 +48,30 @@ class Visualisator:
         plt.show()
 
     @staticmethod
+    def draw_weights_history(nn):
+        # reduce plot margins
+        plt.subplots_adjust(bottom=0.05, top=0.95, left=0.05, right=0.95)
+
+        for layer_index, layer in enumerate(nn.layers):
+            for prev_layer_neuron_index in range(layer.input_count):
+                # get weights of edges from one neuron from previous layer to all neurons in current layer 
+                weights = np.transpose([historical_weights[:,prev_layer_neuron_index] for historical_weights in layer.weights_history])
+                for neuron_index in range(layer.neuron_count):
+                    rows_count = layer.input_count
+                    cols_count =  len(nn.layers)
+                    current_plot_index = len(nn.layers) * prev_layer_neuron_index + layer_index + 1
+
+                    ax = plt.subplot(rows_count, cols_count, current_plot_index)
+                    plt.plot(range(len(weights[neuron_index])), weights[neuron_index])
+                    plt.setp(ax.get_xticklabels(), visible = (prev_layer_neuron_index == layer.input_count -1)) # show x axis tick labels only on the bottom chart in each column
+                    ax.set_ylabel('Weight', fontdict = { 'size': 9 })
+
+            plt.legend([f'{x}' for x in range(layer.neuron_count)]).draggable() # show legend only for the bottom chart in each column
+            ax.set_xlabel('Epoch')
+
+        plt.show()
+
+    @staticmethod
     def _group_by_class_id(data):
         group_ids = set(map(itemgetter(1), data))
         grouped_points = [

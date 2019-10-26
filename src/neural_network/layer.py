@@ -8,6 +8,7 @@ class Layer(ABC):
         self.activation_function = activation_function
         self.weights = weights if weights is not None else np.random.rand(neuron_count, input_count)
         self.biases = biases if biases is not None else np.random.rand(neuron_count)
+        self.weights_history = [self.weights]
 
     def activate(self, inputs):
         z = np.dot(self.weights, inputs) + self.biases
@@ -24,3 +25,6 @@ class Layer(ABC):
     def update_weights_and_biases(self, nabla_w, nabla_b, eta, mini_batch_size):
         self.weights = self.weights - (eta / mini_batch_size) * nabla_w
         self.biases = self.biases - (eta / mini_batch_size) * nabla_b
+    
+    def add_weights_to_history(self):
+        self.weights_history.append(self.weights)
