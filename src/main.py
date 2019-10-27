@@ -20,11 +20,9 @@ nn.create_and_add_layer(15, 2, Sigmoid(), True, CrossEntropyCost())
 
 train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
 test_data = create_test_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
-nn.train(train_data, 10, 100, 0.5, 0, test_data)
+nn.train(train_data, 10, 3, 0.5, 0, test_data)
 
-Visualisator.draw_loss_function(nn)
-# Visualisator.draw_classifier_scatter_plot(nn, test_data)
-# Visualisator.draw_weights_history(nn)
+Visualisator.visualise_classification(nn, test_data)
 
 # Regression
 # print("Regression")
@@ -35,10 +33,6 @@ Visualisator.draw_loss_function(nn)
 # train_data = create_train_data(ProblemType.Regression, "./data/regression/train/data.activation.train.1000.csv", ["x"], ["y"])
 # test_data = create_test_data(ProblemType.Regression, "./data/regression/test/data.activation.test.1000.csv", ["x"], ["y"])
 
-# nn.train(train_data, 10, 100, 0.006, 0, test_data)
+# nn.train(train_data, 10, 3, 0.006, 0, test_data)
 
-# Visualisator.draw_loss_function(nn)
-
-# Visualisator.draw_regression_results(nn, test_data)
-
-# Visualisator.draw_weights_history(nn)
+# Visualisator.visualise_regression(nn, test_data)
