@@ -13,20 +13,22 @@ from data_transformations import create_test_data, create_train_data, ProblemTyp
 import matplotlib.pyplot as plt
 
 
-Report.test()
+# Report.run_tests()
+
+Report.test_classification()
 # Classification
 
-print("Classification")
-nn = ClassificationNeuralNetwork()
-nn.create_and_add_hidden_layer(2, 10, Sigmoid())
-nn.create_and_add_hidden_layer(10, 15, Sigmoid())
-nn.create_and_add_output_layer(15, 2, Sigmoid(), QuadraticCost())
+# print("Classification")
+# nn = ClassificationNeuralNetwork()
+# nn.create_and_add_hidden_layer(2, 10, Sigmoid())
+# nn.create_and_add_hidden_layer(10, 15, Sigmoid())
+# nn.create_and_add_output_layer(15, 2, Sigmoid(), QuadraticCost())
 
-train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
-test_data = create_test_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
-nn.train(train_data, 10, 100, 0.5, 0, test_data)
+# train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.three_gauss.train.1000.csv", ["x", "y"], ["cls"])
+# test_data = create_test_data(ProblemType.Classification, "./data/classification/test/data.three_gauss.test.1000.csv", ["x", "y"], ["cls"])
+# nn.train(train_data, 10, 100, 0.5, 0, test_data)
 
-Visualisator.visualise_classification(nn, test_data)
+# Visualisator.visualise_classification(nn, test_data)
 
 # Regression
 # print("Regression")

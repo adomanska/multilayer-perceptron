@@ -41,47 +41,47 @@ class Report:
             train_data = create_train_data(ProblemType.Classification, train_dir + train_file, ["x", "y"], ["cls"])
             test_data = create_train_data(ProblemType.Classification, test_dir + test_file, ["x", "y"], ["cls"])
 
-            Report._test_networks(cls_networks, f'{output_directory}{train_file}/', train_data, test_data)
+            Report._test_networks(cls_networks, f'{output_directory}results.{train_file}', train_data, test_data)
 
     @staticmethod
-    def _test_networks(networks, output_dir, train_data, test_data):
-        batch_sizes = np.arange(10, 30, 10)
-        epoch_counts = np.arange(100, 300, 100)
+    def _test_networks(networks, filename, train_data, test_data):
+        batch_size = 50
+        epoch_count = 100
         etas = np.arange(0.1, 0.3, 0.1)
         momenta = np.arange(0, 0.3, 0.1)
 
-        if not os.path.exists(output_dir):
-            os.makedirs(output_dir)
+        f = open(filename, 'w')
+        endl = '\n'
+        
+        # write headlines
+        f.write('"eta, momentum \\ network size"')
+        for nn in networks:
+            sizes = '2' if isinstance(nn, ClassificationNeuralNetwork) else '1'
+            for layer in nn.layers:
+                sizes += f' - {str(layer.neuron_count)}'
+            f.write(f',{sizes}')
+        f.write(endl)
 
-        for index, nn in enumerate(networks):
-            f = open(f'{output_dir}/{index}.txt', 'w')
+        # train network and save results
+        for eta in etas:
+            for momentum in momenta:
+                f.write(f'"eta={eta}, momentum={momentum}"')
 
-            for epoch_count in epoch_counts:
-                for eta in etas:
-                    for momentum in momenta:
-                        for batch_size in batch_sizes:
-                            nn.train(train_data, batch_size, epoch_count, eta, momentum, test_data)
-                            f.write('START TEST \n')
-                            f.write(f'Epochs: {epoch_count}, eta: {eta}, momentum: {momentum}, batch size: {batch_size}\n')
-                            f.write(f'{type(nn).__name__}\n')
-                            f.write('Layers:\n')
-                            for layer in nn.layers:
-                                f.write(f'neurons: {layer.neuron_count}, activation: {type(layer.activation_function).__name__}\n')
-                            
-                            f.write(f'cost function: {type(nn.layers[-1].cost_function).__name__}\n')
-                            f.write(f'Last accuracy: {nn.accuracies[-1]}\n')
-                            f.write(f'Best accuracy: {np.max(nn.accuracies)}\n')
-                            f.write('END TEST\n')
-                            f.write('\n==================================================\n\n')
-            f.close()
+                for nn in networks:
+                    nn.train(train_data, batch_size, epoch_count, eta, momentum, test_data)
+                    f.write(f',{np.max(nn.accuracies) * 100}%')
+                
+                f.write(endl)
+        
+        f.close()
 
     @staticmethod
     def prepare_classification_networks():
         networks = []
         # no hidden layers
-        cls1 = ClassificationNeuralNetwork()
-        cls1.create_and_add_output_layer(2, 2, Sigmoid(), QuadraticCost())
-        networks.append(cls1)
+        # cls1 = ClassificationNeuralNetwork()
+        # cls1.create_and_add_output_layer(2, 2, Sigmoid(), QuadraticCost())
+        # networks.append(cls1)
 
         # 1 hidden layer
         cls1 = ClassificationNeuralNetwork()
@@ -94,17 +94,17 @@ class Report:
         cls1.create_and_add_output_layer(5, 2, Sigmoid(), QuadraticCost())
         networks.append(cls1)
 
-        cls1 = ClassificationNeuralNetwork()
-        cls1.create_and_add_hidden_layer(2, 10, Sigmoid())
-        cls1.create_and_add_output_layer(10, 2, Sigmoid(), QuadraticCost())
-        networks.append(cls1)
+        # cls1 = ClassificationNeuralNetwork()
+        # cls1.create_and_add_hidden_layer(2, 10, Sigmoid())
+        # cls1.create_and_add_output_layer(10, 2, Sigmoid(), QuadraticCost())
+        # networks.append(cls1)
 
-        # 2 hidden
-        cls1 = ClassificationNeuralNetwork()
-        cls1.create_and_add_hidden_layer(2, 1, Sigmoid())
-        cls1.create_and_add_hidden_layer(1, 5, Sigmoid())
-        cls1.create_and_add_output_layer(5, 2, Sigmoid(), QuadraticCost())
-        networks.append(cls1)
+        # # 2 hidden
+        # cls1 = ClassificationNeuralNetwork()
+        # cls1.create_and_add_hidden_layer(2, 1, Sigmoid())
+        # cls1.create_and_add_hidden_layer(1, 5, Sigmoid())
+        # cls1.create_and_add_output_layer(5, 2, Sigmoid(), QuadraticCost())
+        # networks.append(cls1)
 
         return networks
 
