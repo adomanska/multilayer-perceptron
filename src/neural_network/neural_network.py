@@ -35,6 +35,7 @@ class NeuralNetwork(ABC):
 
     def train(self, training_data, mini_batch_size, epochs_count, eta, momentum = 0, test_data = None):
         n_train = len(training_data)
+        self.accuracies = []
         if test_data:
             n_test = len(test_data)
         
@@ -46,7 +47,9 @@ class NeuralNetwork(ABC):
             for mini_batch in mini_batches:
                 self._update_mini_batch(mini_batch, eta, momentum)
             if test_data:
-                print("Epoch {0}: {1} / {2}".format(epoch, self.evaluate(test_data), n_test))
+                good_predictions_count = self.evaluate(test_data)
+                self.accuracies.append(good_predictions_count / n_test)
+                print("Epoch {0}: {1} / {2}".format(epoch, good_predictions_count , n_test))
             else:
                 print("Epoch {0} complete".format(epoch))
 
