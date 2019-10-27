@@ -32,7 +32,7 @@ class Visualisator:
         grouped_classification_results = \
             Visualisator._group_by_class_id(classification_results)
         
-        grouped_test_data = Visualisator._group_by_class_id(test_data)
+        grouped_test_data = Visualisator._group_by_class_id([(x, np.argmax(y)) for (x, y) in test_data])
 
         # Create the plot
         _, ax = plt.subplots(1)
