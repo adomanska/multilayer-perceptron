@@ -42,6 +42,7 @@ class NeuralNetwork(ABC):
             n_test = len(test_data)
         
         for epoch in range(epochs_count):
+            self.summed_batch_cost = 0
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
@@ -63,7 +64,6 @@ class NeuralNetwork(ABC):
 
     def _update_mini_batch(self, mini_batch, eta, momentum):
         mini_batch_size = len(mini_batch)
-        self.summed_batch_cost = 0
         nabla_b = np.array([np.zeros(layer.neuron_count) for layer in self.layers])
         nabla_w = np.array([np.zeros([layer.neuron_count, layer.input_count]) for layer in self.layers])
         for x, y in mini_batch:
