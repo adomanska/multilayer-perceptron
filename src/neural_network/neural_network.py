@@ -42,7 +42,7 @@ class NeuralNetwork(ABC):
             n_test = len(test_data)
         
         for epoch in range(epochs_count):
-            self.summed_batch_cost = 0
+            self.summed_train_cost = 0
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
@@ -58,8 +58,8 @@ class NeuralNetwork(ABC):
                 layer.add_weights_to_history()
                     
             # save average cost
-            avg_batch_cost = self.summed_batch_cost / mini_batch_size
-            self.epoch_train_costs.append(avg_batch_cost)
+            avg_train_cost = self.summed_train_cost / n_train
+            self.epoch_train_costs.append(avg_train_cost)
             
 
     def _update_mini_batch(self, mini_batch, eta, momentum):
@@ -77,7 +77,7 @@ class NeuralNetwork(ABC):
         # feedforward
         result = self._feed_forward(x)
         cost = self.layers[-1].cost_function.calculate(result, y)
-        self.summed_batch_cost += cost
+        self.summed_train_cost += cost
         # backward pass
         delta = None
         nabla_b = []
