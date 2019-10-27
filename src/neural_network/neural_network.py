@@ -60,10 +60,10 @@ class NeuralNetwork(ABC):
             if test_data:
                 good_predictions_count = self.evaluate(test_data)
                 self.accuracies.append(good_predictions_count / n_test)
-                print("Epoch {0}: {1} / {2}".format(epoch, good_predictions_count , n_test))
+                # print("Epoch {0}: {1} / {2}".format(epoch, good_predictions_count , n_test))
                 self._calculate_test_set_cost(test_data)
-            else:
-                print("Epoch {0} complete".format(epoch))
+            # else:
+            #     # print("Epoch {0} complete".format(epoch))
             for layer in self.layers:
                 layer.add_weights_to_history()
                     

@@ -21,7 +21,7 @@ def create_train_data(problem_type, data_path, x_cols, y_cols):
 
     if problem_type == ProblemType.Classification:
         max_class = int(max(ys))
-        return [(x, create_classification_output(int(y), max_class)) for x, y in zip(xs, ys)]
+        return [(x, create_classification_output(int(y), max_class)) for x, y in zip(xs, ys)], max_class
     else:
         return [(x, y) for x, y in zip(xs, ys)]
 
