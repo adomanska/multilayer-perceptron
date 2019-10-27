@@ -16,6 +16,7 @@ class NeuralNetwork(ABC):
         input_count, 
         neuron_count, 
         activation_function,
+        biases_enabled = True,
         weights = None, 
         biases = None
     ):
@@ -27,6 +28,7 @@ class NeuralNetwork(ABC):
         neuron_count, 
         activation_function,
         cost_function,
+        biases_enabled = True,
         weights = None, 
         biases = None
     ):

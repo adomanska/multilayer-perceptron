@@ -14,7 +14,7 @@ def test_backward_pass():
         [1/2, 1/2, 1/2, 1/2]
     ])
     biases = np.array([0.1, 0.1, 0.1])
-    layer = OutputLayer(4, 3, sigmoid, mse, weights, biases)
+    layer = OutputLayer(4, 3, sigmoid, mse, True, weights, biases)
     y = np.array([0, 1, 0])
     expected_nabla_b = np.array([
         (sigmoid.calculate(0.3) - 0) * sigmoid.calculate_derivative(0.3),
