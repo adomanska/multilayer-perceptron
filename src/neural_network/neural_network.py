@@ -35,10 +35,14 @@ class NeuralNetwork(ABC):
 
     def train(self, training_data, mini_batch_size, epochs_count, eta, momentum = 0, test_data = None):
         n_train = len(training_data)
+        self.epoch_train_costs = []
+        self.epoch_test_costs = []
+
         if test_data:
             n_test = len(test_data)
         
         for epoch in range(epochs_count):
+            self.summed_train_cost = 0
             random.shuffle(training_data)
             mini_batches = [
                 training_data[k:k+mini_batch_size]
@@ -47,8 +51,16 @@ class NeuralNetwork(ABC):
                 self._update_mini_batch(mini_batch, eta, momentum)
             if test_data:
                 print("Epoch {0}: {1} / {2}".format(epoch, self.evaluate(test_data), n_test))
+                self._calculate_test_set_cost(test_data)
             else:
                 print("Epoch {0} complete".format(epoch))
+            for layer in self.layers:
+                layer.add_weights_to_history()
+                    
+            # save average cost
+            avg_train_cost = self.summed_train_cost / n_train
+            self.epoch_train_costs.append(avg_train_cost)
+            
 
     def _update_mini_batch(self, mini_batch, eta, momentum):
         mini_batch_size = len(mini_batch)
@@ -63,7 +75,9 @@ class NeuralNetwork(ABC):
 
     def _backprop(self, x, y):
         # feedforward
-        self._feed_forward(x)
+        result = self._feed_forward(x)
+        cost = self.layers[-1].cost_function.calculate(result, y)
+        self.summed_train_cost += cost
         # backward pass
         delta = None
         nabla_b = []
@@ -74,6 +88,16 @@ class NeuralNetwork(ABC):
             nabla_b.append(delta)
             nabla_w.append(nw)
         return (nabla_b, nabla_w)
+
+    def _calculate_test_set_cost(self, test_data):
+        cost_sum = 0
+        test_size = len(test_data)
+
+        for (x, y) in test_data:
+            result = self._feed_forward(x)
+            cost_sum += self.layers[-1].cost_function.calculate(np.array(result), np.array(y)).sum()
+        
+        self.epoch_test_costs.append(cost_sum / test_size)
 
     @abstractmethod
     def evaluate(self, test_data):
