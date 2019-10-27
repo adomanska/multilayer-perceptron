@@ -72,6 +72,20 @@ class Visualisator:
         plt.show()
 
     @staticmethod
+    def draw_loss_function(nn):
+        ys_train = nn.epoch_train_costs
+        ys_test = nn.epoch_test_costs
+        xs = range(len(ys_train))
+
+        plt.figure()
+        plt.plot(xs, ys_train)
+        plt.plot(xs, ys_test)
+        plt.legend(['train set loss', 'test set loss'])
+        plt.xlabel('Epochs')
+        plt.ylabel('Loss')
+        plt.show()
+
+    @staticmethod
     def _group_by_class_id(data):
         group_ids = set(map(itemgetter(1), data))
         grouped_points = [
