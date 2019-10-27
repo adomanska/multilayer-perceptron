@@ -11,21 +11,28 @@ class NeuralNetwork(ABC):
     def add_layer(self, layer):
         self.layers.append(layer)
 
-    def create_and_add_layer(
+    def create_and_add_hidden_layer(
         self,
         input_count, 
         neuron_count, 
-        activation_function, 
-        output = False, 
-        cost_function = None, 
+        activation_function,
+        biases_enabled = True,
         weights = None, 
         biases = None
     ):
-        if output:
-            layer = OutputLayer(input_count, neuron_count, activation_function, cost_function, weights, biases)
-        else:
-            layer = HiddenLayer(input_count, neuron_count, activation_function, weights, biases)
-        self.add_layer(layer)
+        self.add_layer(HiddenLayer(input_count, neuron_count, activation_function, weights, biases))
+
+    def create_and_add_output_layer(
+        self,
+        input_count, 
+        neuron_count, 
+        activation_function,
+        cost_function,
+        biases_enabled = True,
+        weights = None, 
+        biases = None
+    ):
+        self.add_layer(OutputLayer(input_count, neuron_count, activation_function, cost_function, weights, biases))
 
     def _feed_forward(self, input):
         for layer in self.layers:

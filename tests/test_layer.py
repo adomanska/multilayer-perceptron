@@ -18,7 +18,7 @@ def test_activate():
     ])
     biases = np.array([0.1, 0.1, 0.1])
     expected_result = np.array([0.3, 0.5, 0.9])
-    layer = HiddenLayer(4, 3, SampleActivationFunc(), weights, biases)
+    layer = HiddenLayer(4, 3, SampleActivationFunc(), True, weights, biases)
     result = layer.activate(inputs)
     np.testing.assert_allclose(result, expected_result)
 
@@ -40,7 +40,7 @@ def test_update_weights_and_biases():
         [0.5, 0.5, 0.5]
     ])
     expected_biases = np.array([0.05, 0.1])
-    layer = HiddenLayer(3, 2, SampleActivationFunc(), initial_weights, initial_biases)
+    layer = HiddenLayer(3, 2, SampleActivationFunc(), True, initial_weights, initial_biases)
 
     print(layer.weights)
     layer.update_weights_and_biases(nabla_w, nabla_b, eta, mini_batch_size)
