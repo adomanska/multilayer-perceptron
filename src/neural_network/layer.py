@@ -12,6 +12,7 @@ class Layer(ABC):
         if biases_enabled:
             self.bias_velocities = np.zeros(neuron_count)
             self.biases = biases if biases is not None else np.random.rand(neuron_count)
+        self.weights_history = [self.weights]
 
     def activate(self, inputs):
         if self.biases_enabled:
@@ -34,3 +35,6 @@ class Layer(ABC):
         if self.biases_enabled:
             self.bias_velocities = momentum * self.bias_velocities - (eta / mini_batch_size) * nabla_b
             self.biases = self.biases + self.bias_velocities
+
+    def add_weights_to_history(self):
+        self.weights_history.append(self.weights)

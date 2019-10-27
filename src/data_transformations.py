@@ -31,6 +31,6 @@ def create_test_data(problem_type, data_path, x_cols, y_cols):
     ys = data_reader.get_columns(y_cols)
 
     if problem_type == ProblemType.Classification:
-        return [(x, y - 1) for x, y in zip(xs, ys)]
+        return [(x, y[0] - 1) for x, y in zip(xs, ys)] # y[0] because classification output always has one element
     else:
         return [(x, y) for x, y in zip(xs, ys)]
