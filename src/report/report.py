@@ -40,7 +40,7 @@ class Report:
             train_data, output_count = create_train_data(ProblemType.Classification, train_dir + train_file, ["x", "y"], ["cls"])
             test_data, output_count = create_train_data(ProblemType.Classification, test_dir + test_file, ["x", "y"], ["cls"])
             cls_networks = Report.prepare_classification_networks(output_count)
-            Report._test_networks(cls_networks, f'{output_directory}results.{train_file}', train_data, test_data)
+            Report._test_networks(cls_networks, f'{output_directory}results.{train_file}', train_data, test_data, ProblemType.Classification)
 
     @staticmethod
     def test_regression():
@@ -50,7 +50,7 @@ class Report:
 
         train_dir = './data/regression/train/'
         test_dir = './data/regression/test/'
-        train_filenames = ['data.activation.train.100.csv', 'data.activation.train.500.csv', 'data.cube.train.100.csv', 'data.cube.train.500.csv']
+        train_filenames = ['data.cube.train.100.csv', 'data.cube.train.500.csv']
         test_filenames = [filename.replace("train", "test") for filename in train_filenames]
 
         print(train_filenames)
@@ -59,20 +59,20 @@ class Report:
             train_data = create_train_data(ProblemType.Regression, train_dir + train_file, ["x"], ["y"])
             test_data = create_test_data(ProblemType.Regression, test_dir + test_file, ["x"], ["y"])
             reg_networks = Report.prepare_regression_networks()
-            Report._test_networks(reg_networks, f'{output_directory}results.{train_file}', train_data, test_data)
+            Report._test_networks(reg_networks, f'{output_directory}results.{train_file}', train_data, test_data, ProblemType.Regression)
 
     @staticmethod
-    def _test_networks(networks, filename, train_data, test_data):
+    def _test_networks(networks, filename, train_data, test_data, problem_type):
         batch_size = 50
         epoch_count = 100
-        etas = [1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2]
+        etas = [1/64, 1/32, 1/16, 1/8, 1/4, 1/2, 1, 2, 4]
         momenta = np.arange(0, 1, 0.25)
 
         f = open(filename, 'w')
         endl = '\n'
         
         # write headlines
-        f.write('"eta,momentum"')
+        f.write('eta,momentum')
         for nn in networks:
             sizes = '-'.join([str(layer.neuron_count) for layer in nn.layers])
             f.write(f',{sizes}')
@@ -81,12 +81,15 @@ class Report:
         # train network and save results
         for eta in etas:
             for momentum in momenta:
-                f.write(f'"{eta},{momentum}"')
+                f.write(f'{eta},{momentum}')
 
                 print("eta={0} momentum={1}".format(eta, momentum))
                 for nn in networks:
                     nn.train(train_data, batch_size, epoch_count, eta, momentum, test_data)
-                    f.write(f',{np.max(nn.accuracies)}')
+                    if problem_type == ProblemType.Classification:
+                        f.write(f',{np.max(nn.accuracies)}')
+                    else:
+                        f.write(f',{np.min(nn.accuracies)}')
                 
                 f.write(endl)
         
