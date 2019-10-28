@@ -15,7 +15,7 @@ import matplotlib.pyplot as plt
 
 # Report.run_tests()
 
-Report.test_classification()
+Report.test_regression()
 # Classification
 
 # print("Classification")
@@ -33,8 +33,8 @@ Report.test_classification()
 # Regression
 # print("Regression")
 # nn = RegressionNeuralNetwork()
-# nn.create_and_add_hidden_layer(1, 9, Sigmoid(), False)
-# nn.create_and_add_output_layer(9, 1, Linear(), True)
+# nn.create_and_add_hidden_layer(1, 9, Sigmoid())
+# nn.create_and_add_output_layer(9, 1, Linear(), QuadraticCost())
 
 
 # train_data = create_train_data(ProblemType.Regression, "./data/regression/train/data.activation.train.1000.csv", ["x"], ["y"])
