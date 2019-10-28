@@ -61,7 +61,7 @@ class Report:
         # train network and save results
         for eta in etas:
             for momentum in momenta:
-                f.write(f'{eta},{momentum}"')
+                f.write(f'"{eta},{momentum}"')
 
                 print("eta={0} momentum={1}".format(eta, momentum))
                 for nn in networks:
