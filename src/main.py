@@ -10,20 +10,36 @@ from cost_functions.cross_entropy_cost import CrossEntropyCost
 import numpy as np
 from data_transformations import create_test_data, create_train_data, ProblemType
 import matplotlib.pyplot as plt
+from mnist_loader import MnistLoader
+
+mnist_loader = MnistLoader('data/mnist')
+training_data = mnist_loader.get_training_data()
+print(len(training_data))
+testing_data = mnist_loader.get_testing_data()
+print(len(testing_data))
+
+nn = ClassificationNeuralNetwork()
+nn.create_and_add_hidden_layer(784, 15, Sigmoid())
+nn.create_and_add_hidden_layer(15, 15, Sigmoid())
+nn.create_and_add_output_layer(15, 10, Sigmoid(), QuadraticCost())
+print(training_data[0])
+nn.train(training_data[0:1000], 100, 100, 0.001, 0, testing_data[0:100])
+
 
 # Classification
-print("Classification")
-nn = ClassificationNeuralNetwork()
-nn.create_and_add_hidden_layer(2, 10, Sigmoid())
-nn.create_and_add_hidden_layer(10, 15, Sigmoid())
-nn.create_and_add_output_layer(15, 2, Sigmoid(), QuadraticCost())
+# print("Classification")
+# nn = ClassificationNeuralNetwork()
+# nn.create_and_add_hidden_layer(2, 10, Sigmoid())
+# nn.create_and_add_hidden_layer(10, 15, Sigmoid())
+# nn.create_and_add_output_layer(15, 2, Sigmoid(), QuadraticCost())
 
 
-train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
-test_data = create_train_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
-nn.train(train_data, 10, 100, 0.5, 0, test_data)
+# train_data = create_train_data(ProblemType.Classification, "./data/classification/train/data.simple.train.1000.csv", ["x", "y"], ["cls"])
+# print(train_data)
+# test_data = create_train_data(ProblemType.Classification, "./data/classification/test/data.simple.test.1000.csv", ["x", "y"], ["cls"])
+# nn.train(train_data, 10, 100, 0.5, 0, test_data)
 
-Visualisator.visualise_classification(nn, test_data)
+# Visualisator.visualise_classification(nn, test_data)
 
 # Regression
 # print("Regression")

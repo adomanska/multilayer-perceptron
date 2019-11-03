@@ -72,9 +72,11 @@ class NeuralNetwork(ABC):
     def _update_mini_batch(self, mini_batch, eta, momentum):
         mini_batch_size = len(mini_batch)
         nabla_b = np.array([np.zeros(layer.neuron_count) for layer in self.layers])
-        nabla_w = np.array([np.zeros([layer.neuron_count, layer.input_count]) for layer in self.layers])
+        nabla_w = [np.zeros((layer.neuron_count, layer.input_count)) for layer in self.layers]
         for x, y in mini_batch:
-            delta_nabla_b, delta_nabla_w = np.flip(self._backprop(x, y), 1)
+            delta_nabla_b, delta_nabla_w = self._backprop(x, y)
+            delta_nabla_b.reverse()
+            delta_nabla_w.reverse()
             nabla_b = [nb+dnb for nb, dnb in zip(nabla_b, delta_nabla_b)]
             nabla_w = [nw+dnw for nw, dnw in zip(nabla_w, delta_nabla_w)]
         for layer, nb, nw in zip(self.layers, nabla_b, nabla_w):
