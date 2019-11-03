@@ -15,7 +15,7 @@ class MnistLoader:
 
 
     def prepare_data(self, images, labels):
-        return [(np.array(image), self._prepare_label(label)) for image, label in zip(images, labels)]
+        return [(np.array(image) / 256, self._prepare_label(label)) for image, label in zip(images, labels)]
 
     def _prepare_label(self, label):
         output = np.zeros(10)

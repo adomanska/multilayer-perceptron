@@ -19,11 +19,9 @@ testing_data = mnist_loader.get_testing_data()
 print(len(testing_data))
 
 nn = ClassificationNeuralNetwork()
-nn.create_and_add_hidden_layer(784, 15, Sigmoid())
-nn.create_and_add_hidden_layer(15, 15, Sigmoid())
-nn.create_and_add_output_layer(15, 10, Sigmoid(), QuadraticCost())
-print(training_data[0])
-nn.train(training_data[0:1000], 100, 100, 0.001, 0, testing_data[0:100])
+nn.create_and_add_hidden_layer(784, 30, Sigmoid())
+nn.create_and_add_output_layer(30, 10, Sigmoid(), QuadraticCost())
+nn.train(training_data[0:1000], 10, 30, 3, 0, testing_data[0:100])
 
 
 # Classification
