@@ -6,8 +6,8 @@ class Layer(ABC):
         self.input_count = input_count
         self.neuron_count = neuron_count
         self.activation_function = activation_function
-        self.weights = weights if weights is not None else np.random.rand(neuron_count, input_count)
-        self.biases = biases if biases is not None else np.random.rand(neuron_count)
+        self.weights = weights if weights is not None else np.random.randn(neuron_count, input_count)
+        self.biases = biases if biases is not None else np.random.randn(neuron_count)
 
     def activate(self, inputs):
         z = np.dot(self.weights, inputs) + self.biases
