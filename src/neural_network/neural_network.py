@@ -5,8 +5,8 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 class NeuralNetwork(ABC):
-    def __init__(self):
-        self.seed = np.random.get_state()
+    def __init__(self, seed = 123):
+        np.random.seed(seed)
         self.layers = []
     
     def add_layer(self, layer):
