@@ -12,6 +12,7 @@ import numpy as np
 from data_transformations import create_test_data, create_train_data, ProblemType
 import matplotlib.pyplot as plt
 from mnist_loader import MnistLoader
+from serializer import Serializer
 
 mnist_loader = MnistLoader('data/mnist')
 training_data = mnist_loader.get_training_data()
@@ -20,11 +21,24 @@ testing_data = mnist_loader.get_testing_data()
 print(len(testing_data))
 
 nn = ClassificationNeuralNetwork()
-nn.create_and_add_hidden_layer(784, 30, Sigmoid())
+nn.create_and_add_hidden_layer(784, 30, Sigmoid(), True)
 nn.create_and_add_output_layer(30, 10, Sigmoid(), QuadraticCost())
-nn.train(training_data[0:1000], 10, 3, 3, 0, testing_data[0:100])
+nn.train(training_data[0:1000], 10, 15, 3, 0, testing_data[0:100])
 
-FileWriter.save_results(nn)
+ser = Serializer()
+ser.serialize(nn, '30-sigmoid')
+weights, biases = ser.deserialize('30-sigmoid.npz')
+
+print(np.allclose(nn.layers[1].weights, weights[1]))
+print(nn.evaluate(testing_data[0:100]))
+
+nn2 = ClassificationNeuralNetwork()
+nn2.create_and_add_hidden_layer(784, 30, Sigmoid(), True, weights=weights[0], biases=biases[0])
+nn2.create_and_add_output_layer(30, 10, Sigmoid(), QuadraticCost(), weights=weights[1], biases=biases[1])
+print(nn2.evaluate(testing_data[0:100]))
+
+# nn2.train(training_data[0:1000], 10, 15, 3, 0, testing_data[0:100])
+# print(nn2.layers[1].weights)
 
 # Classification
 # print("Classification")

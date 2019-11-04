@@ -21,7 +21,7 @@ class NeuralNetwork(ABC):
         weights = None, 
         biases = None
     ):
-        self.add_layer(HiddenLayer(input_count, neuron_count, activation_function, weights, biases))
+        self.add_layer(HiddenLayer(input_count, neuron_count, activation_function, biases_enabled, weights, biases))
 
     def create_and_add_output_layer(
         self,
@@ -33,7 +33,7 @@ class NeuralNetwork(ABC):
         weights = None, 
         biases = None
     ):
-        self.add_layer(OutputLayer(input_count, neuron_count, activation_function, cost_function, weights, biases))
+        self.add_layer(OutputLayer(input_count, neuron_count, activation_function, cost_function, biases_enabled, weights, biases))
 
     def _feed_forward(self, input):
         for layer in self.layers:
@@ -65,8 +65,6 @@ class NeuralNetwork(ABC):
                 self._calculate_test_set_cost(test_data)
             else:
                 print("Epoch {0} complete".format(epoch))
-            for layer in self.layers:
-                layer.add_weights_to_history()
                     
             # save average cost
             avg_train_cost = self.summed_train_cost / n_train
