@@ -5,7 +5,8 @@ import numpy as np
 from abc import ABC, abstractmethod
 
 class NeuralNetwork(ABC):
-    def __init__(self):
+    def __init__(self, seed = 123):
+        np.random.seed(seed)
         self.layers = []
     
     def add_layer(self, layer):
@@ -42,6 +43,7 @@ class NeuralNetwork(ABC):
 
     def train(self, training_data, mini_batch_size, epochs_count, eta, momentum = 0, test_data = None):
         n_train = len(training_data)
+        self.accuracies = []
         self.epoch_train_costs = []
         self.epoch_test_costs = []
 
@@ -57,7 +59,9 @@ class NeuralNetwork(ABC):
             for mini_batch in mini_batches:
                 self._update_mini_batch(mini_batch, eta, momentum)
             if test_data:
-                print("Epoch {0}: {1} / {2}".format(epoch, self.evaluate(test_data), n_test))
+                good_predictions_count = self.evaluate(test_data)
+                self.accuracies.append(good_predictions_count / n_test)
+                print("Epoch {0}: {1} / {2}".format(epoch, good_predictions_count , n_test))
                 self._calculate_test_set_cost(test_data)
             else:
                 print("Epoch {0} complete".format(epoch))

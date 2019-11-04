@@ -7,6 +7,7 @@ from activation_functions.tan_h import TanH
 from visualisator import Visualisator
 from cost_functions.quadratic_cost import QuadraticCost
 from cost_functions.cross_entropy_cost import CrossEntropyCost
+from file_writer import FileWriter
 import numpy as np
 from data_transformations import create_test_data, create_train_data, ProblemType
 import matplotlib.pyplot as plt
@@ -21,8 +22,9 @@ print(len(testing_data))
 nn = ClassificationNeuralNetwork()
 nn.create_and_add_hidden_layer(784, 30, Sigmoid())
 nn.create_and_add_output_layer(30, 10, Sigmoid(), QuadraticCost())
-nn.train(training_data[0:1000], 10, 30, 3, 0, testing_data[0:100])
+nn.train(training_data[0:1000], 10, 3, 3, 0, testing_data[0:100])
 
+FileWriter.save_results(nn)
 
 # Classification
 # print("Classification")
