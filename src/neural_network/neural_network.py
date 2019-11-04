@@ -65,6 +65,9 @@ class NeuralNetwork(ABC):
                 self._calculate_test_set_cost(test_data)
             else:
                 print("Epoch {0} complete".format(epoch))
+
+            for layer in self.layers:
+                layer.update_history()
                     
             # save average cost
             avg_train_cost = self.summed_train_cost / n_train

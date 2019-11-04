@@ -29,7 +29,6 @@ ser = Serializer()
 ser.serialize(nn, '30-sigmoid')
 weights, biases = ser.deserialize('30-sigmoid.npz')
 
-print(np.allclose(nn.layers[1].weights, weights[1]))
 print(nn.evaluate(testing_data[0:100]))
 
 nn2 = ClassificationNeuralNetwork()

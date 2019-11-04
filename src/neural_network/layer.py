@@ -37,5 +37,9 @@ class Layer(ABC):
         if self.biases_enabled:
             self.bias_velocities = momentum * self.bias_velocities - (eta / mini_batch_size) * nabla_b
             self.biases = self.biases + self.bias_velocities
-            self.biases_history.append(self.biases)
+        
+
+    def update_history(self):
         self.weights_history.append(self.weights)
+        if self.biases_enabled:
+            self.biases_history.append(self.biases)

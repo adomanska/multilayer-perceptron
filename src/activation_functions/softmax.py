@@ -7,5 +7,5 @@ class Softmax(ActivationFunction):
         return np.exp(x_stable) / np.sum(np.exp(x_stable), axis=0, keepdims=True)
 
     def calculate_derivative(self, x):
-        values = self.calculate_value(x)
+        values = self.calculate(x)
         return values * (1 - values)
